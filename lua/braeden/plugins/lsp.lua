@@ -137,7 +137,13 @@ return {
         },
         filetypes = { 'typescript', 'javascript', 'vue' },
       },
+      -- Currently, Volar requires this workaround for their language server
+      -- https://github.com/vuejs/language-tools/issues/4706
       volar = {},
+      html = {},
+      cssls = {},
+      jsonls = {},
+      marksman = {},
       lua_ls = {
         settings = {
           Lua = {
@@ -161,7 +167,9 @@ return {
     -- for you, so that they are available from within Neovim.
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
-      'stylua', -- Used to format Lua code
+      'stylua',       -- Used to format Lua code
+      'eslint_d',     -- Used to lint JavaScript and TypeScript
+      'markdownlint', -- Used to lint Markdown
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
