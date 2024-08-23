@@ -121,11 +121,6 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    -- Used to get the path to the vue-language-server (tsserver needs it)
-    local mason_registry = require('mason-registry')
-    local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() ..
-        '/node_modules/@vue/language-server'
-
     -- Enables the following language servers
     --  See `:help lspconfig-all` for a list of all the pre-configured LSPs
     local servers = {
@@ -133,9 +128,10 @@ return {
         init_options = {
           plugins = {
             {
-              name = "@vue/typescript-plugin",
-              location = vue_language_server_path,
-              languages = { "vue" },
+              name = '@vue/typescript-plugin',
+              location = require('mason-registry').get_package('vue-language-server'):get_install_path() ..
+                  '/node_modules/@vue/language-server',
+              languages = { 'vue' },
             },
           },
         },
