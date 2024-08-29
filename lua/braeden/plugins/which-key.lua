@@ -3,7 +3,7 @@ return {
   event = 'VimEnter', -- Sets the loading event to 'VimEnter'
   opts = {
     spec = {
-      { '<leader>c', group = '[C]ode' },
+      { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
       { '<leader>d', group = '[D]ocument' },
       { '<leader>r', group = '[R]ename' },
       { '<leader>s', group = '[S]earch' },

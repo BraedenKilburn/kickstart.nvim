@@ -1,5 +1,5 @@
 return {
-  "neovim/nvim-lspconfig",
+  'neovim/nvim-lspconfig',
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
     { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
@@ -9,7 +9,7 @@ return {
     -- Useful status updates for LSP.
     {
       'j-hui/fidget.nvim',
-      opts = {}
+      opts = {},
     },
 
     -- Allows extra capabilities provided by nvim-cmp
@@ -24,8 +24,9 @@ return {
         --
         -- In this case, we create a function that lets us more easily define mappings specific
         -- for LSP related items. It sets the mode, buffer and description for us each time.
-        local map = function(keys, func, desc)
-          vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+        local map = function(keys, func, desc, mode)
+          mode = mode or 'n'
+          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
         end
 
         -- Jump to the definition of the word under your cursor.
@@ -59,7 +60,7 @@ return {
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+        map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
@@ -115,10 +116,10 @@ return {
 
     -- Change the Diagnostic symbols in the sign column (gutter)
     -- (not in youtube nvim video)
-    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+    local signs = { Error = ' ', Warn = ' ', Hint = '󰠠 ', Info = ' ' }
     for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+      local hl = 'DiagnosticSign' .. type
+      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
     end
 
     -- Enables the following language servers
@@ -129,8 +130,7 @@ return {
           plugins = {
             {
               name = '@vue/typescript-plugin',
-              location = require('mason-registry').get_package('vue-language-server'):get_install_path() ..
-                  '/node_modules/@vue/language-server',
+              location = require('mason-registry').get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server',
               languages = { 'vue' },
             },
           },
@@ -167,8 +167,8 @@ return {
     -- for you, so that they are available from within Neovim.
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
-      'stylua',       -- Used to format Lua code
-      'eslint_d',     -- Used to lint JavaScript and TypeScript
+      'stylua', -- Used to format Lua code
+      'eslint_d', -- Used to lint JavaScript and TypeScript
       'markdownlint', -- Used to lint Markdown
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
